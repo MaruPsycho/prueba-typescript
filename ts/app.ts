@@ -1,88 +1,98 @@
-class Pajareria{
-    nombre:string;
-    direccion:string;
-    animales:Array<Animal>;
-    constructor(nombrePajareria:string){
-        this.nombre=nombrePajareria;
-    }
-    anadirAnimal(oAnimal:Animal)
-    {
-        if(this.animales==null)
-        {
-            this.animales=new Array<Animal>();
-        }
-        this.animales.push(oAnimal);
-    }
+
+
+abstract class Base implements IObjetoApp
+{
+    id:number;
 }
 
-class GritoAnimal{
-    aullido:string;
-    intensidad:number;
-
+interface IObjetoApp
+{
+   id:number; 
 }
 
-
-class Animal
+interface IPersonaBasica
 {
     nombre:string;
-    apodo:string;
-    numPatas:number;
-    ruido:GritoAnimal;
+    apellido1:string;
+    apellido2:string;
+    nombreCompleto():string;
+}
 
-    constructor(nombreOtro:string, ruidoOtro:string){
-        this.nombre=nombreOtro;
+interface IPersonaFiscal extends IPersonaBasica
+{
+    dni:string;
+}
 
-        this.ruido=new GritoAnimal();
-        this.ruido.aullido=ruidoOtro;
+interface IPersonaVirtual
+{
+    email:string;
+}
 
+class Persona extends Base implements IPersonaFiscal,IPersonaVirtual
+{
+    nombre:string;
+    apellido1:string;
+    apellido2:string;
+    email:string;
+    dni:string;
+    fechaNacimiento:Date;
+    nombreCompleto():string{
+        /*let nombreCompleto=`${this.nombre} ${this.apellido1}`;
+
+        if(this.apellido2 != null){
+            nombreCompleto=`${nombreCompleto} ${this.apellido2}`;
+        }
+
+        return nombreCompleto;*/
+
+        //La mejor manera
+        return `${this.nombre+this.id} ${this.apellido1}${this.apellido2?" " + this.apellido2:""}`
     }
-    
-    gritar():void
+
+    Imprimir():void
     {
-        alert("el "+this.nombre+ " hace "+ this.ruido.aullido)
+            alert(this.nombreCompleto());
     }
 
 }
 
-    let oAnimal = new Animal("perro", "guau");
-    let oAnimalMarino = new Animal("delfin", "ñiiii");
-    
-    let oBoton= document.createElement("button");
-    oBoton.type="button";
-    oBoton.innerHTML="Gritaaaa!!";
-    oBoton.onclick= function(){ oAnimal.gritar()};
+class Psicologo extends Persona{
+    nColegiado:string;
 
-    document.getElementById("root").appendChild(oBoton);
-
-    let oBotonMarino=document.createElement("button");
-    oBotonMarino.type="button";
-    oBotonMarino.innerHTML="Pececito hace..";
-    oBotonMarino.onclick=function(){oAnimalMarino.gritar()};
-
-    document.getElementById("root").appendChild(oBotonMarino);
-
-
-
-    let oPajareria=new Pajareria("Tio Tom");
-    oPajareria.anadirAnimal(new Animal("PioRojo","PioPio"));
-
-    for(let i=0;i<100;i++)
+    Imprimir():void
     {
-        let oAnimalFantastico=new Animal("Animal"+i,"GGrrrr"+i);
-        oPajareria.anadirAnimal(oAnimalFantastico);
+            alert("Hola soy PsicoLco@, "+this.nombreCompleto());
     }
+}
 
-    for(let i=0;i<oPajareria.animales.length;i++)
-    {
-        MeterAnimal(oPajareria.animales[i]);
-    }
+class Usuario extends Base{   
+    nick:string;
+    password:string;
+    persona:Persona;
+}
 
-    function MeterAnimal(oAnimal:Animal)
-    {
-    let oBton=document.createElement("button");
-    oBton.type="button";
-    oBton.innerHTML=oAnimal.nombre;
-    oBton.onclick=function(){oAnimal.gritar()};
+let oBase:Base;
 
-    document.getElementById("root").appendChild(oBton);
-    }
+
+
+let oPsico= new Psicologo();
+
+let Persona1:Persona;
+Persona1= new Persona();
+
+
+oBase=oPsico;
+
+
+Persona1.nombre="miguelangel";
+Persona1.apellido1="delcampo";
+Persona1.apellido2="morales";
+
+
+//alert(Persona1.nombreCompleto());
+
+
+function MostrarDatos(oPersona:IPersonaBasica)
+{
+    oPersona.nombreCompleto();
+}

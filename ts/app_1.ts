@@ -1,4 +1,4 @@
-class Persona
+/*class Persona
 {
     Edad:number;
     Nombre:string;
@@ -33,4 +33,4 @@ class Persona
 
 let oPersona= new Persona("Maru",29);
 
-alert(oPersona.Edad);
+alert(oPersona.Edad);*/
